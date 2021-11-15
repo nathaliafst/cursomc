@@ -27,6 +27,7 @@ public class Cliente implements Serializable {
 
     private String cpfCnpj;
 
+    @Column(unique = true)
     @Email(message="Sintaxe do Email incorreta.")
     private String email;
 

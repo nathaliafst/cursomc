@@ -66,4 +66,11 @@ public class ClienteResource {
         Page<ClienteDTO> clienteDTOS = cliente.map(obj -> new ClienteDTO(obj));
         return ResponseEntity.ok().body(clienteDTOS);
     }
+
+    @RequestMapping(value="/email", method=RequestMethod.GET)
+    public ResponseEntity<Cliente> find(@RequestParam(value="value") String email) {
+        Cliente obj = clienteService.findByEmail(email);
+        return ResponseEntity.ok().body(obj);
+    }
+
 }
