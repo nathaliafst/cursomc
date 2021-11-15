@@ -1,12 +1,16 @@
 package com.nathaliafst.cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nathaliafst.cursomc.enums.Perfil;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name="CLIENTE")
@@ -17,15 +21,26 @@ public class Cliente implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
+
     @NotEmpty(message="Preenchimento obrigatorio!")
     private String nome;
+
     private String cpfCnpj;
+
     @Email(message="Sintaxe do Email incorreta.")
     private String email;
+
     @JsonIgnore
+    @NotEmpty(message="Preenchimento obrigatorio!")
     private String senha;
 
-    public Cliente(){}
+    @ElementCollection(fetch=FetchType.EAGER)
+    @CollectionTable(name="PERFIS")
+    private Set<Integer> perfis = new HashSet<>();
+
+    public Cliente(){
+        addPerfil(Perfil.CLIENTE);
+    }
 
     public Cliente(Integer id, String nome, String cpfCnpj, String email, String senha) {
         this.id = id;
@@ -33,6 +48,7 @@ public class Cliente implements Serializable {
         this.cpfCnpj = cpfCnpj;
         this.email = cpfCnpj;
         this.senha = senha;
+        addPerfil(Perfil.CLIENTE);
     }
 
     public Integer getId() {
@@ -73,6 +89,14 @@ public class Cliente implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Perfil> getPerfis(){
+        return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+    }
+
+    public void addPerfil(Perfil perfil){
+        perfis.add(perfil.getCod());
     }
 
     @Override
