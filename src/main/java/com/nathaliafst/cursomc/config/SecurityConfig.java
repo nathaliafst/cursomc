@@ -1,6 +1,7 @@
 package com.nathaliafst.cursomc.config;
 
 import com.nathaliafst.cursomc.security.JWTAuthenticationFilter;
+import com.nathaliafst.cursomc.security.JWTAuthorizationFilter;
 import com.nathaliafst.cursomc.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -61,8 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PUBLIC_MATCHERS).permitAll() //tudo que vier deste vetor vou permitir
                 .anyRequest().authenticated(); //para to-do resto exigir autenticacao
         httpSecurity.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
-       //httpSecurity.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
-
+        httpSecurity.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //Assegur que o back end nao vai segura sessao de usuario
     }
 
