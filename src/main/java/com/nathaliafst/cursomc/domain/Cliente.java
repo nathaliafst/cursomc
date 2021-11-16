@@ -47,7 +47,7 @@ public class Cliente implements Serializable {
         this.id = id;
         this.nome = nome;
         this.cpfCnpj = cpfCnpj;
-        this.email = cpfCnpj;
+        this.email = email;
         this.senha = senha;
         addPerfil(Perfil.CLIENTE);
     }

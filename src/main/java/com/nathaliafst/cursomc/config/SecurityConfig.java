@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
-        if (Arrays.asList(env.getActiveProfiles()).contains("teste")) {
+        if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
             httpSecurity.headers().frameOptions().disable();
         } //pegando os profiles ativos e vendo se tem test
 
